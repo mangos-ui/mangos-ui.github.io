@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mangos Interactive: Roblox UI designed and built in Studio. Simulator, RNG, competitive, cozy, obby and horror styles.">
+<meta property="og:title" content="Mangos Interactive">
+<meta property="og:description" content="Roblox UI, designed and built in Studio.">
+<meta property="og:image" content="https://mangos-ui.github.io/img/k1_sim_shop_a.jpg">
+<meta property="og:url" content="https://mangos-ui.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<title>Mangos Interactive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Figtree:wght@400;500;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: one dark "studio wall" column; screens are the art, everything else stays quiet. Single dark look on purpose. */
+:root {
+  color-scheme: dark;
+  --bg: #0f0d12;
+  --panel: #1a1720;
+  --line: #2c2734;
+  --fg: #f3eee6;
+  --muted: #a69fae;
+  --mango: #ffb020;
+  --mango-deep: #ff7a2f;
+  --warn-bg: #2a1f08;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --label: "Chakra Petch", "Consolas", ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.55; margin: 0; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+a { color: var(--mango); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--mango); outline-offset: 3px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+.label { font-family: var(--label); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+
+/* top bar */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 22px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 800; font-size: 20px; }
+.brand-mark { width: 30px; height: 30px; border-radius: 50% 50% 50% 8px; background: linear-gradient(140deg, var(--mango), var(--mango-deep)); box-shadow: inset -4px -4px 0 rgba(0,0,0,.18); }
+.top nav { display: flex; gap: 20px; flex-wrap: wrap; }
+.top nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
+.top nav a:hover { color: var(--fg); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 40px; align-items: center; padding-block: 36px 56px; }
+.hero h1 { font-size: clamp(38px, 5.6vw, 68px); font-weight: 800; line-height: 1.02; }
+.hero h1 em { font-style: normal; color: var(--mango); }
+.hero p { color: var(--muted); font-size: 18px; max-width: 34em; margin: 18px 0 26px; }
+.cta { display: inline-flex; gap: 12px; flex-wrap: wrap; }
+.btn { font-family: var(--body); font-weight: 700; font-size: 16px; border-radius: 12px; padding: 12px 20px; text-decoration: none; border: 2px solid transparent; cursor: pointer; }
+.btn-main { background: var(--mango); color: #1b1204; border-color: #1b1204; box-shadow: 0 4px 0 #1b1204; }
+.btn-main:hover { transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--fg); border-color: var(--line); }
+.stack { position: relative; aspect-ratio: 16 / 11; max-width: 100%; }
+.stack img { position: absolute; width: 74%; border-radius: 12px; border: 1px solid var(--line); box-shadow: 0 24px 48px rgba(0,0,0,.55); }
+.stack img:nth-child(1) { left: 0; top: 0; transform: rotate(-3deg); }
+.stack img:nth-child(2) { right: 0; top: 18%; transform: rotate(2.5deg); }
+.stack img:nth-child(3) { left: 12%; bottom: 0; transform: rotate(-1deg); }
+
+/* AI notice */
+.notice { display: flex; gap: 14px; align-items: flex-start; background: var(--warn-bg); border: 2px solid var(--mango); border-radius: 14px; padding: 16px 20px; font-size: 17px; }
+.notice strong { color: var(--mango); font-family: var(--label); letter-spacing: 0.08em; text-transform: uppercase; font-size: 13px; display: block; margin-bottom: 2px; }
+.notice-icon { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--mango); color: #1b1204; font-weight: 800; display: grid; place-items: center; font-family: var(--display); }
+
+section { padding-block: 64px 8px; }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.sec-head h2 { font-size: clamp(28px, 3.4vw, 40px); font-weight: 800; }
+.sec-head p { color: var(--muted); max-width: 40em; margin: 6px 0 0; }
+
+/* live game */
+.live { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.live figure { margin: 0; }
+.live img { width: 100%; border-radius: 12px; border: 1px solid var(--line); display: block; }
+.live figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; }
+.facts { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.facts li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; }
+.facts li::before { content: ""; width: 10px; height: 10px; margin-top: 8px; border-radius: 3px; background: var(--mango); }
+.live-side { display: grid; gap: 18px; }
+.live-side img { aspect-ratio: 16 / 9; object-fit: cover; }
+
+/* gallery */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.filters button { font-family: var(--label); font-weight: 600; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; background: var(--panel); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; }
+.filters button[aria-pressed="true"] { background: var(--mango); color: #1b1204; border-color: var(--mango); }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.shot { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.shot button { all: unset; display: block; cursor: zoom-in; width: 100%; }
+.shot img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .25s ease; }
+.shot button:hover img { transform: scale(1.03); }
+.shot figcaption { display: flex; justify-content: space-between; gap: 10px; padding: 10px 14px; font-weight: 500; font-size: 15px; }
+.shot figcaption span:last-child { color: var(--muted); font-family: var(--label); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+
+/* prices */
+.prices { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.price { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 8px; align-content: start; }
+.price.pick { border: 2px solid var(--mango); }
+.price h3 { font-size: 20px; font-weight: 800; }
+.amount { font-family: var(--display); font-weight: 800; font-size: 30px; color: var(--mango); font-variant-numeric: tabular-nums; }
+.price p { margin: 0; color: var(--muted); font-size: 15px; }
+.included { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 32px; margin-top: 28px; }
+.terms { margin-top: 20px; color: var(--muted); font-size: 15px; }
+
+/* contact */
+.contact { background: linear-gradient(135deg, #2a1a08, #1a1720 60%); border: 1px solid var(--line); border-radius: 18px; padding: 32px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; margin-block: 64px 48px; }
+.contact h2 { font-size: clamp(26px, 3vw, 36px); font-weight: 800; }
+.contact p { color: var(--muted); margin: 8px 0 0; }
+.reach { display: grid; gap: 12px; justify-items: start; }
+.tag { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 10px 10px 10px 16px; }
+.tag-name { font-family: var(--display); font-weight: 800; font-size: 24px; user-select: all; }
+.group-link { color: var(--muted); font-size: 15px; }
+footer { color: var(--muted); font-size: 14px; padding-block: 0 40px; }
+
+/* lightbox */
+dialog { border: 0; padding: 0; background: transparent; max-width: min(96vw, 1600px); }
+dialog::backdrop { background: rgba(8,6,10,.88); }
+dialog img { display: block; max-width: 100%; max-height: 86vh; border-radius: 10px; }
+dialog p { color: var(--fg); text-align: center; margin: 10px 0 0; }
+dialog .close { position: absolute; top: 10px; right: 10px; background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 10px; padding: 6px 12px; font-weight: 700; cursor: pointer; }
+
+@media (max-width: 900px) {
+  .hero, .live, .contact { grid-template-columns: minmax(0, 1fr); }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .prices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .grid, .prices, .included { grid-template-columns: minmax(0, 1fr); }
+  .top nav { gap: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } .btn-main:hover { transform: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span>Mangos Interactive</div>
+    <nav aria-label="Sections">
+      <a href="#live">Live game</a>
+      <a href="#work">UI designs</a>
+      <a href="#prices">Prices</a>
+      <a href="#contact">Hire</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <p class="label">Roblox UI · designed and built in Studio</p>
+      <h1>Shops, HUDs and menus that make players <em>click.</em></h1>
+      <p>I design your game's screens, then build them in Studio: every frame named, scaled for phone and PC, with working buttons and open/close animations. Simulator, RNG, competitive, cozy, obby or horror.</p>
+      <div class="cta">
+        <a class="btn btn-main" href="#contact">Hire me</a>
+        <a class="btn btn-ghost" href="#work">See the work</a>
+      </div>
+    </div>
+    <div class="stack" aria-hidden="true">
+      <img src="img/k2_dark_stash_a.jpg" alt="">
+      <img src="img/k3_comp_lobby_a.jpg" alt="">
+      <img src="img/k1_sim_shop_a.jpg" alt="">
+    </div>
+  </div>
+
+  <div class="notice" role="note">
+    <span class="notice-icon" aria-hidden="true">!</span>
+    <div><strong>About the art</strong>All icons/emblems are placeholders made with AI. You can provide custom icons or I can make them for you.</div>
+  </div>
+
+  <section id="live">
+    <div class="sec-head">
+      <div>
+        <p class="label">Built in Studio · live on Roblox</p>
+        <h2>Mine For Eggs!</h2>
+        <p>My own published game. Every screen in it is a real Roblox UI I built and scripted, running live on Roblox.</p>
+      </div>
+      <a class="btn btn-ghost" href="https://www.roblox.com/games/115070897800911" target="_blank" rel="noopener">Play it on Roblox</a>
+    </div>
+    <div class="live">
+      <figure>
+        <img src="img/live_hatch.jpg" alt="Mine For Eggs: a Celestial hatch reveal with menu buttons, counters and an Awesome button">
+        <figcaption>In-game screenshot: hatch reveal, side menus, cash and strength counters, refill timer.</figcaption>
+      </figure>
+      <div class="live-side">
+        <ul class="facts">
+          <li>Robux store with 39 working products and game passes</li>
+          <li>Hatch reveals with 12 different rarity looks</li>
+          <li>Pet index, egg and pet side panels, rebirth, daily gifts, codes</li>
+          <li>Separate phone layout, saving with ProfileStore</li>
+        </ul>
+        <figure>
+          <img src="img/live_chase.jpg" alt="Mine For Eggs: a player in the lava cave next to a red dragon guardian">
+          <figcaption>The game world: lava cave guardian.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="sec-head">
+      <div>
+        <p class="label">UI designs · 6 styles</p>
+        <h2>Pick a look for your game</h2>
+        <p>Full-screen designs for the screens buyers ask for most. Any of these can be built in Studio for your game. Click a screen to see it big.</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filter by style">
+        <button type="button" data-f="all" aria-pressed="true">All</button>
+        <button type="button" data-f="sim" aria-pressed="false">Simulator</button>
+        <button type="button" data-f="dark" aria-pressed="false">Dark fantasy</button>
+        <button type="button" data-f="comp" aria-pressed="false">Competitive</button>
+        <button type="button" data-f="cozy" aria-pressed="false">Cozy</button>
+        <button type="button" data-f="obby" aria-pressed="false">Obby</button>
+        <button type="button" data-f="horror" aria-pressed="false">Horror</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="prices">
+    <div class="sec-head">
+      <div>
+        <p class="label">Prices · USD</p>
+        <h2>What it costs</h2>
+        <p>Starting prices. The final quote depends on how many screens, how much custom art, and how fast you need it.</p>
+      </div>
+    </div>
+    <div class="prices">
+      <div class="price">
+        <h3>Design</h3>
+        <div class="amount">$25–40</div>
+        <p>Per screen. A finished design image (PNG) your own scripter can build from.</p>
+      </div>
+      <div class="price pick">
+        <h3>Built in Studio</h3>
+        <div class="amount">$40–70</div>
+        <p>Per screen. Designed and built as a real ScreenGui with working buttons and animations.</p>
+      </div>
+      <div class="price">
+        <h3>Set of 5</h3>
+        <div class="amount">$150–250</div>
+        <p>Five built screens in one style, for example HUD, shop, inventory, rewards and settings.</p>
+      </div>
+      <div class="price">
+        <h3>Full game UI</h3>
+        <div class="amount">Quote</div>
+        <p>Every screen your game needs, one matching style. Send me your list.</p>
+      </div>
+    </div>
+    <ul class="facts included">
+      <li>One ScreenGui per screen, every object named</li>
+      <li>Scale-based sizes, works on phone and PC</li>
+      <li>Open/close tweens and hover effects on built screens</li>
+      <li>Icons as separate images you can swap</li>
+      <li>Delivered as a .rbxm file you drop into your game</li>
+      <li>2 rounds of changes included</li>
+    </ul>
+    <p class="terms">Payment: 50% upfront, 50% on delivery, through PayPal.</p>
+  </section>
+
+  <div class="contact" id="contact">
+    <div>
+      <h2>Need UI for your game?</h2>
+      <p>Add me on Discord and send your game, the screens you need and a reference picture or two.</p>
+    </div>
+    <div class="reach">
+      <div class="tag">
+        <span class="label">Discord</span>
+        <span class="tag-name" id="tagName">zelvruh</span>
+        <button class="btn btn-main" type="button" id="copyTag">Copy tag</button>
+      </div>
+      <a class="group-link" href="https://www.roblox.com/communities/298046542" target="_blank" rel="noopener">Mangos Interactive on Roblox</a>
+    </div>
+  </div>
+
+  <footer>© 2026 Mangos Interactive. Roblox is a trademark of Roblox Corporation; this page is not affiliated with Roblox.</footer>
+</div>
+
+<dialog id="box" aria-label="Screen preview">
+  <button class="close" type="button" id="boxClose">Close</button>
+  <img id="boxImg" src="" alt="">
+  <p id="boxCap"></p>
+</dialog>
+
+<script>
+const SHOTS = [
+  ["k1_sim_shop_a", "sim", "Robux shop", "Simulator"],
+  ["k1_sim_shop_b", "sim", "Secret hatch reveal", "Simulator"],
+  ["k1_sim_pets_a", "sim", "Pet inventory", "Simulator"],
+  ["k1_sim_pets_b", "sim", "Pet index", "Simulator"],
+  ["k1_sim_rewards_a", "sim", "Daily rewards", "Simulator"],
+  ["k1_sim_rewards_b", "sim", "Rebirth", "Simulator"],
+  ["k2_dark_stash_a", "dark", "Item stash", "Dark fantasy"],
+  ["k2_dark_stash_b", "dark", "Aura roll reveal", "Dark fantasy"],
+  ["k2_dark_menu_a", "dark", "Aura collection", "Dark fantasy"],
+  ["k2_dark_menu_b", "dark", "Daily quests", "Dark fantasy"],
+  ["k2_dark_forge_a", "dark", "Crafting forge", "Dark fantasy"],
+  ["k3_comp_lobby_a", "comp", "Lobby + loadout", "Competitive"],
+  ["k3_comp_pass_a", "comp", "Battle pass", "Competitive"],
+  ["k3_comp_pass_b", "comp", "Locker", "Competitive"],
+  ["k3_comp_hud_a", "comp", "Match HUD", "Competitive"],
+  ["k4_cozy_a", "cozy", "Seed shop", "Cozy"],
+  ["k4_cozy_b", "cozy", "Garden HUD", "Cozy"],
+  ["k5_obby_a", "obby", "Run HUD", "Obby"],
+  ["k5_obby_b", "obby", "Trail shop", "Obby"],
+  ["k6_horror_a", "horror", "Main menu", "Horror"],
+  ["k6_horror_b", "horror", "In-game note", "Horror"],
+];
+const grid = document.getElementById("grid");
+for (const [file, style, name, styleName] of SHOTS) {
+  const fig = document.createElement("figure");
+  fig.className = "shot";
+  fig.dataset.style = style;
+  fig.innerHTML = `<button type="button" aria-label="Open ${name} (${styleName}) full size"><img loading="lazy" src="img/${file}.jpg" alt="${name}, ${styleName} style UI design"></button><figcaption><span>${name}</span><span>${styleName}</span></figcaption>`;
+  fig.dataset.src = `img/${file}.jpg`;
+  fig.dataset.cap = `${name} · ${styleName}`;
+  fig.querySelector("button").addEventListener("click", () => openBox(fig));
+  grid.appendChild(fig);
+}
+document.querySelectorAll(".filters button").forEach((b) => {
+  b.addEventListener("click", () => {
+    document.querySelectorAll(".filters button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    const f = b.dataset.f;
+    grid.querySelectorAll(".shot").forEach((s) => { s.hidden = f !== "all" && s.dataset.style !== f; });
+  });
+});
+const box = document.getElementById("box");
+let current = null; // the figure shown in the big view
+function showFig(fig) {
+  current = fig;
+  const visible = [...grid.querySelectorAll(".shot:not([hidden])")];
+  document.getElementById("boxImg").src = fig.dataset.src;
+  document.getElementById("boxImg").alt = fig.dataset.cap;
+  document.getElementById("boxCap").textContent = `${fig.dataset.cap}   ${visible.indexOf(fig) + 1} / ${visible.length}   ← → to browse`;
+}
+function openBox(fig) {
+  showFig(fig);
+  if (box.showModal && !box.open) box.showModal();
+}
+function step(dir) {
+  const visible = [...grid.querySelectorAll(".shot:not([hidden])")];
+  const i = visible.indexOf(current);
+  showFig(visible[(i + dir + visible.length) % visible.length]);
+}
+document.addEventListener("keydown", (e) => {
+  if (!box.open) return;
+  if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
+  if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+});
+document.getElementById("copyTag").addEventListener("click", (e) => {
+  const b = e.currentTarget;
+  const done = (t) => { b.textContent = t; setTimeout(() => (b.textContent = "Copy tag"), 1800); };
+  navigator.clipboard.writeText("zelvruh").then(() => done("Copied!"), () => {
+    const r = document.createRange(); r.selectNodeContents(document.getElementById("tagName"));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r); done("Press Ctrl+C");
+  });
+});
+document.getElementById("boxClose").addEventListener("click", () => box.close());
+box.addEventListener("click", (e) => { if (e.target === box) box.close(); });
+</script>
+
+</body>
+</html>
