@@ -140,6 +140,7 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
     <div class="brand"><span class="brand-mark" aria-hidden="true"></span>Mangos Interactive</div>
     <nav aria-label="Sections">
       <a href="#live">Live game</a>
+      <a href="#studio">In Studio</a>
       <a href="#work">UI designs</a>
       <a href="#prices">Prices</a>
       <a href="#contact">Hire</a>
@@ -195,6 +196,17 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
         </figure>
       </div>
     </div>
+  </section>
+
+  <section id="studio">
+    <div class="sec-head">
+      <div>
+        <p class="label">Built in Studio · real Roblox UI</p>
+        <h2>From design to working screens</h2>
+        <p>The simulator designs below, built as real ScreenGuis: every object named, scaled for phone and PC, with spinning rays, bobbing art, button hover and press, and windows that pop open and closed. These are screenshots from Roblox Studio, not mockups.</p>
+      </div>
+    </div>
+    <div class="grid" id="studioGrid"></div>
   </section>
 
   <section id="work">
@@ -343,6 +355,17 @@ const SHOTS = [
   ["s16_comic_sticker_a", "comic", "Quest board", "Comic"],
   ["s16_comic_sticker_b", "comic", "Level up", "Comic"],
 ];
+const STUDIO = [["studio_shop", "Robux shop"], ["studio_daily", "Daily rewards"], ["studio_rebirth", "Rebirth"], ["studio_hatch", "Hatch reveal"]];
+const studioGrid = document.getElementById("studioGrid");
+for (const [file, name] of STUDIO) {
+  const fig = document.createElement("figure");
+  fig.className = "shot";
+  fig.dataset.src = `img/${file}.jpg`;
+  fig.dataset.cap = `${name} · Built in Studio`;
+  fig.innerHTML = `<button type="button" aria-label="Open ${name} (built in Studio) full size"><img loading="lazy" src="img/${file}.jpg" alt="${name}, real Roblox Studio screenshot"></button><figcaption><span>${name}</span><span>In Studio</span></figcaption>`;
+  fig.querySelector("button").addEventListener("click", () => openBox(fig));
+  studioGrid.appendChild(fig);
+}
 const grid = document.getElementById("grid");
 for (const [file, style, name, styleName] of SHOTS) {
   const fig = document.createElement("figure");
@@ -365,7 +388,7 @@ const box = document.getElementById("box");
 let current = null; // the figure shown in the big view
 function showFig(fig) {
   current = fig;
-  const visible = [...grid.querySelectorAll(".shot:not([hidden])")];
+  const visible = [...fig.parentElement.querySelectorAll(".shot:not([hidden])")];
   document.getElementById("boxImg").src = fig.dataset.src;
   document.getElementById("boxImg").alt = fig.dataset.cap;
   document.getElementById("boxCap").textContent = `${fig.dataset.cap}   ${visible.indexOf(fig) + 1} / ${visible.length}   ← → to browse`;
@@ -375,7 +398,7 @@ function openBox(fig) {
   if (box.showModal && !box.open) box.showModal();
 }
 function step(dir) {
-  const visible = [...grid.querySelectorAll(".shot:not([hidden])")];
+  const visible = [...current.parentElement.querySelectorAll(".shot:not([hidden])")];
   const i = visible.indexOf(current);
   showFig(visible[(i + dir + visible.length) % visible.length]);
 }
