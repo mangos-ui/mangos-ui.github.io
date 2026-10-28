@@ -200,12 +200,14 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
   <section id="work">
     <div class="sec-head">
       <div>
-        <p class="label">UI designs · 15 styles</p>
+        <p class="label">UI designs · 17 styles</p>
         <h2>Pick a look for your game</h2>
         <p>Full-screen designs for the screens buyers ask for most. Any of these can be built in Studio for your game. Click a screen to see it big.</p>
       </div>
       <div class="filters" role="group" aria-label="Filter by style">
         <button type="button" data-f="all" aria-pressed="true">All</button>
+        <button type="button" data-f="console" aria-pressed="false">Console FPS</button>
+        <button type="button" data-f="hazard" aria-pressed="false">Tactical</button>
         <button type="button" data-f="dossier" aria-pressed="false">Dossier</button>
         <button type="button" data-f="cine" aria-pressed="false">Cinematic</button>
         <button type="button" data-f="cards" aria-pressed="false">Trading cards</button>
@@ -295,6 +297,10 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
 const SHOTS = [
   ["k7_crt_a", "crt", "Main menu + map vote", "Retro CRT"],
   ["k7_crt_b", "crt", "Pause menu", "Retro CRT"],
+  ["k13_console_a", "console", "Weapon loadout", "Console FPS"],
+  ["k13_console_b", "console", "Profile + leaderboards", "Console FPS"],
+  ["k14_hazard_a", "hazard", "Loading screen", "Tactical"],
+  ["k14_hazard_b", "hazard", "Squad deploy map", "Tactical"],
   ["k9_dossier_a", "dossier", "Agent file + case board", "Dossier"],
   ["k10_cine_a", "cine", "Class select", "Cinematic"],
   ["k12_cards_a", "cards", "Card pack opening", "Trading cards"],
