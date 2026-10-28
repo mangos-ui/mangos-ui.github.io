@@ -213,12 +213,14 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
   <section id="work">
     <div class="sec-head">
       <div>
-        <p class="label">UI designs · 19 styles</p>
+        <p class="label">UI designs · 21 styles</p>
         <h2>Pick a look for your game</h2>
         <p>Full-screen designs for the screens buyers ask for most. Any of these can be built in Studio for your game. Click a screen to see it big.</p>
       </div>
       <div class="filters" role="group" aria-label="Filter by style">
         <button type="button" data-f="all" aria-pressed="true">All</button>
+        <button type="button" data-f="anime" aria-pressed="false">Anime</button>
+        <button type="button" data-f="holo" aria-pressed="false">Sci-fi holo</button>
         <button type="button" data-f="console" aria-pressed="false">Console FPS</button>
         <button type="button" data-f="hazard" aria-pressed="false">Tactical</button>
         <button type="button" data-f="dossier" aria-pressed="false">Dossier</button>
@@ -312,6 +314,9 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
 const SHOTS = [
   ["k7_crt_a", "crt", "Main menu + map vote", "Retro CRT"],
   ["k7_crt_b", "crt", "Pause menu", "Retro CRT"],
+  ["k17_anime_a", "anime", "Summon banner", "Anime"],
+  ["k17_anime_b", "anime", "Unit roster", "Anime"],
+  ["k18_holo_a", "holo", "Starship upgrades", "Sci-fi holo"],
   ["k13_console_a", "console", "Weapon loadout", "Console FPS"],
   ["k13_console_b", "console", "Profile + leaderboards", "Console FPS"],
   ["k13_console_c", "console", "Store", "Console FPS"],
