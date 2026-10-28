@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Mangos Interactive: Roblox UI designed and built in Studio. Simulator, RNG, competitive, cozy, obby and horror styles.">
+<meta name="description" content="Mangos Interactive: Roblox UI designed and built in Studio. Retro CRT, simulator, RNG, competitive, tycoon, cozy, obby, comic and horror styles.">
 <meta property="og:title" content="Mangos Interactive">
 <meta property="og:description" content="Roblox UI, designed and built in Studio.">
 <meta property="og:image" content="https://mangos-ui.github.io/img/k1_sim_shop_a.jpg">
@@ -150,7 +150,7 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
     <div>
       <p class="label">Roblox UI · designed and built in Studio</p>
       <h1>Shops, HUDs and menus that make players <em>click.</em></h1>
-      <p>I design your game's screens, then build them in Studio: every frame named, scaled for phone and PC, with working buttons and open/close animations. Simulator, RNG, competitive, cozy, obby or horror.</p>
+      <p>I design your game's screens, then build them in Studio: every frame named, scaled for phone and PC, with working buttons and open/close animations. Retro CRT, simulator, RNG, competitive, tycoon, cozy, obby, comic or horror.</p>
       <div class="cta">
         <a class="btn btn-main" href="#contact">Hire me</a>
         <a class="btn btn-ghost" href="#work">See the work</a>
@@ -200,18 +200,22 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
   <section id="work">
     <div class="sec-head">
       <div>
-        <p class="label">UI designs · 6 styles</p>
+        <p class="label">UI designs · 10 styles</p>
         <h2>Pick a look for your game</h2>
         <p>Full-screen designs for the screens buyers ask for most. Any of these can be built in Studio for your game. Click a screen to see it big.</p>
       </div>
       <div class="filters" role="group" aria-label="Filter by style">
         <button type="button" data-f="all" aria-pressed="true">All</button>
+        <button type="button" data-f="crt" aria-pressed="false">Retro CRT</button>
         <button type="button" data-f="sim" aria-pressed="false">Simulator</button>
         <button type="button" data-f="dark" aria-pressed="false">Dark fantasy</button>
         <button type="button" data-f="comp" aria-pressed="false">Competitive</button>
         <button type="button" data-f="cozy" aria-pressed="false">Cozy</button>
         <button type="button" data-f="obby" aria-pressed="false">Obby</button>
         <button type="button" data-f="horror" aria-pressed="false">Horror</button>
+        <button type="button" data-f="toy" aria-pressed="false">Toy</button>
+        <button type="button" data-f="wood" aria-pressed="false">Wooden tycoon</button>
+        <button type="button" data-f="comic" aria-pressed="false">Comic</button>
       </div>
     </div>
     <div class="grid" id="grid"></div>
@@ -284,6 +288,8 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
 
 <script>
 const SHOTS = [
+  ["k7_crt_a", "crt", "Main menu + map vote", "Retro CRT"],
+  ["k7_crt_b", "crt", "Pause menu", "Retro CRT"],
   ["k1_sim_shop_a", "sim", "Robux shop", "Simulator"],
   ["k1_sim_shop_b", "sim", "Secret hatch reveal", "Simulator"],
   ["k1_sim_pets_a", "sim", "Pet inventory", "Simulator"],
@@ -305,6 +311,13 @@ const SHOTS = [
   ["k5_obby_b", "obby", "Trail shop", "Obby"],
   ["k6_horror_a", "horror", "Main menu", "Horror"],
   ["k6_horror_b", "horror", "In-game note", "Horror"],
+  ["s19_steal_egg_sim_a", "sim", "Egg hatch odds", "Simulator"],
+  ["s01_toy_cards_a", "toy", "Free gifts", "Toy"],
+  ["s01_toy_cards_b", "toy", "Pet team", "Toy"],
+  ["s11_wooden_tycoon_a", "wood", "Upgrades", "Wooden tycoon"],
+  ["s11_wooden_tycoon_b", "wood", "Rebirth", "Wooden tycoon"],
+  ["s16_comic_sticker_a", "comic", "Quest board", "Comic"],
+  ["s16_comic_sticker_b", "comic", "Level up", "Comic"],
 ];
 const grid = document.getElementById("grid");
 for (const [file, style, name, styleName] of SHOTS) {
