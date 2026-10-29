@@ -91,6 +91,9 @@ section { padding-block: 64px 8px; }
 .shot button { all: unset; display: block; cursor: zoom-in; width: 100%; }
 .shot img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .25s ease; }
 .shot button:hover img { transform: scale(1.03); }
+#bestGrid .shot:first-child { grid-column: span 2; grid-row: span 2; }
+#bestGrid .shot:first-child img { aspect-ratio: auto; height: 100%; object-fit: contain; background: #0b0a0d; }
+#bestGrid .shot:first-child button { height: calc(100% - 41px); }
 .shot figcaption { display: flex; justify-content: space-between; gap: 10px; padding: 10px 14px; font-weight: 500; font-size: 15px; }
 .shot figcaption span:last-child { color: var(--muted); font-family: var(--label); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
 
@@ -125,10 +128,14 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
 @media (max-width: 900px) {
   .hero, .live, .contact { grid-template-columns: minmax(0, 1fr); }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #bestGrid .shot:first-child { grid-row: auto; }
+  #bestGrid .shot:first-child img { aspect-ratio: 16 / 9; height: auto; }
+  #bestGrid .shot:first-child button { height: auto; }
   .prices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
   .grid, #studioGrid, .prices, .included { grid-template-columns: minmax(0, 1fr); }
+  #bestGrid .shot:first-child { grid-column: auto; }
   .top nav { gap: 14px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } .btn-main:hover { transform: none; } }
@@ -140,6 +147,7 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
   <header class="top">
     <div class="brand">zelvruh</div>
     <nav aria-label="Sections">
+      <a href="#best">Best work</a>
       <a href="#live">Live game</a>
       <a href="#studio">In Studio</a>
       <a href="#work">UI designs</a>
@@ -152,18 +160,29 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
     <div>
       <p class="label">Roblox UI · designed and built in Studio</p>
       <h1>Shops, HUDs and menus that make players <em>click.</em></h1>
-      <p>I design your game's screens, then build them in Studio: every frame named, scaled for phone and PC, with working buttons and open/close animations. Retro CRT, rustic wood, simulator, RNG, competitive, tycoon, cozy, obby, comic or horror.</p>
+      <p>I design your game's screens, then build them in Studio: every frame named, scaled for phone and PC, with working buttons and open/close animations. Realistic FPS, tactical, simulator, dark fantasy, retro CRT, rustic wood, RNG, competitive, tycoon, cozy, obby, comic or horror.</p>
       <div class="cta">
         <a class="btn btn-main" href="#contact">Hire me</a>
         <a class="btn btn-ghost" href="#work">See the work</a>
       </div>
     </div>
     <div class="stack" aria-hidden="true">
-      <img src="img/k2_dark_stash_a.jpg" alt="">
-      <img src="img/k3_comp_lobby_a.jpg" alt="">
+      <img src="img/k2_dark_stash_b.jpg" alt="">
       <img src="img/k1_sim_shop_a.jpg" alt="">
+      <img src="img/k21_field_a.jpg" alt="">
     </div>
   </div>
+
+  <section id="best">
+    <div class="sec-head">
+      <div>
+        <p class="label">Best work</p>
+        <h2>Start here</h2>
+        <p>My strongest screens across realistic, fantasy and simulator games. Click any screen to see it big.</p>
+      </div>
+    </div>
+    <div class="grid" id="bestGrid"></div>
+  </section>
 
   <div class="notice" role="note">
     <span class="notice-icon" aria-hidden="true">!</span>
@@ -213,12 +232,13 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
   <section id="work">
     <div class="sec-head">
       <div>
-        <p class="label">UI designs · 23 styles</p>
+        <p class="label">UI designs · 24 styles</p>
         <h2>Pick a look for your game</h2>
         <p>Full-screen designs for the screens buyers ask for most. Any of these can be built in Studio for your game. Click a screen to see it big.</p>
       </div>
       <div class="filters" role="group" aria-label="Filter by style">
         <button type="button" data-f="all" aria-pressed="true">All</button>
+        <button type="button" data-f="fps" aria-pressed="false">Realistic FPS</button>
         <button type="button" data-f="anime" aria-pressed="false">Anime</button>
         <button type="button" data-f="holo" aria-pressed="false">Sci-fi holo</button>
         <button type="button" data-f="race" aria-pressed="false">Street racing</button>
@@ -314,6 +334,7 @@ dialog .close { position: absolute; top: 10px; right: 10px; background: var(--pa
 
 <script>
 const SHOTS = [
+  ["k21_field_a", "fps", "In-match HUD", "Realistic FPS"],
   ["k7_crt_a", "crt", "Main menu + map vote", "Retro CRT"],
   ["k7_crt_b", "crt", "Pause menu", "Retro CRT"],
   ["k17_anime_a", "anime", "Summon banner", "Anime"],
@@ -367,6 +388,18 @@ const SHOTS = [
   ["s16_comic_sticker_a", "comic", "Quest board", "Comic"],
   ["s16_comic_sticker_b", "comic", "Level up", "Comic"],
 ];
+const BEST = ["k21_field_a", "k2_dark_stash_a", "k2_dark_stash_b", "k14_hazard_b", "k13_console_a", "k1_sim_shop_a"];
+const bestGrid = document.getElementById("bestGrid");
+for (const file of BEST) {
+  const [, , name, styleName] = SHOTS.find((x) => x[0] === file);
+  const fig = document.createElement("figure");
+  fig.className = "shot";
+  fig.dataset.src = `img/${file}.jpg`;
+  fig.dataset.cap = `${name} · ${styleName}`;
+  fig.innerHTML = `<button type="button" aria-label="Open ${name} (${styleName}) full size"><img src="img/${file}.jpg" alt="${name}, ${styleName} style UI design"></button><figcaption><span>${name}</span><span>${styleName}</span></figcaption>`;
+  fig.querySelector("button").addEventListener("click", () => openBox(fig));
+  bestGrid.appendChild(fig);
+}
 const STUDIO = [["studio_shop", "Robux shop"], ["studio_daily", "Daily rewards"], ["studio_rebirth", "Rebirth"], ["studio_hatch", "Hatch reveal"]];
 const studioGrid = document.getElementById("studioGrid");
 for (const [file, name] of STUDIO) {
